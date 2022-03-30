@@ -1,4 +1,4 @@
-# Bank
+# Bank Application
 
 Etapa I
 1) Definirea sistemului
