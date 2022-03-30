@@ -25,7 +25,7 @@ public class Card {
     }
 
     public void getCardInfo(){
-        System.out.println(number + " " + cvv + " " + expire_date);
+        System.out.println("Card number: " + number + " CVV:" + cvv + " Exp. Date: " + expire_date);
     }
 
     public Date getExpire_date(){

@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Customer {
-    int id;
-    protected Address address;
-    String firstName;
-    String lastName;
-    int age;
-    long phone;
+    private int id;
+    private Address address;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private long phone;
 
-    List<Account>  accountsList = new ArrayList<>();
-    List<SavingsAccount> savingsAccountList = new ArrayList<>();
+    private List<Account>  accountsList = new ArrayList<>();
+    private List<SavingsAccount> savingsAccountList = new ArrayList<>();
 
 
     public void addAccount(Account account){
@@ -23,7 +23,7 @@ public class Customer {
     }
 
     public void getInfo(){
-        System.out.println("Id: " + this.id + " Name: " + firstName + " " + lastName);
+        System.out.println("Id: " + this.id + " Name: " + firstName + " " + lastName + " total balance: " + this.getTotalBalance());
     }
 
     public void getAccountInfo(){
@@ -31,6 +31,14 @@ public class Customer {
             i.getAccountInfo();
             System.out.println("-----\n");
         }
+    }
+
+    public double getTotalBalance(){
+        double totalBalance = 0;
+        for(Account i:accountsList){
+            totalBalance += i.getBalance();
+        }
+        return totalBalance;
     }
 
     public Customer(int id, String firstName, String lastName, int age, long phone) {

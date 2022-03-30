@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         BankService bankService = BankService.getInstance();
-        boolean run = false;
+        boolean run = true;
         System.out.println("Use the help command to view informations about all the commands");
-        while (!run){
+        while (run){
 
             System.out.println("Insert command:");
             String command = in.nextLine();
@@ -26,10 +26,10 @@ public class Main {
                 case "transfer" -> bankService.transfer();
                 case "view_customers" -> bankService.viewCustomers();
                 case "view_customer_accounts" -> bankService.viewCustomerAccounts();
-                case "view_account_info" -> bankService.getCustomerAccountInfo();
+                case "view_account_info" -> bankService.getAccountInfo();
                 case "view_customer_statements" -> bankService.getCustomerStatement();
                 case "help" -> bankService.help();
-                case "exit" -> run = true;
+                case "exit" -> run = false;
             }
         }
 

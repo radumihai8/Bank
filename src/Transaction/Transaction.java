@@ -5,8 +5,8 @@ import Account.Account;
 import java.util.Date;
 
 public class Transaction {
-    Account account;
-    Date date;
+    protected Account account;
+    protected Date date;
 
     public Transaction(Account account){
         this.account = account;

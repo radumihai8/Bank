@@ -1,7 +1,8 @@
 package Account;
 
 public class SavingsAccount extends Account{
-    public float interest;
+
+    private float interest;
 
     public SavingsAccount(String iban, double balance, float interest) {
         super(iban, balance);
@@ -26,8 +27,9 @@ public class SavingsAccount extends Account{
     }
 
     public void getAccountInfo(){
-        System.out.println(this.iban);
-        System.out.println(this.balance);
+        System.out.println("Iban: " + this.iban);
+        System.out.println("Balance: " + this.balance);
+        System.out.println("Interest: " + this.interest);
         for (Card x : cardList)
             x.getCardInfo();
 

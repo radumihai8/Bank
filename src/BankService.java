@@ -36,28 +36,28 @@ public class BankService {
         int id = in.nextInt();
 
         for(Customer x:customers){
-            if(x.getId()==id)
+            if(x.getId()==id) {
                 x.getAccountInfo();
+            }
         }
     }
 
-    public void getCustomerAccountInfo(){
+    //Get the account info by IBAN
+    public void getAccountInfo(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Account id:");
-        int id = in.nextInt();
+        System.out.println("IBAN:");
+        String iban = in.nextLine();
 
-        for(Customer x:customers)
-            if (x.getId()==id) {
-                customers.get(id).getAccountInfo();
-                break;
-            }
+        accountsMap.get(iban).getAccountInfo();
     }
 
+    //Get the statement of a customer by Customer ID
     public void getCustomerStatement(){
         Scanner in = new Scanner(System.in);
         System.out.println("Customer id:");
         int id = in.nextInt();
 
+        //Find the customer with the given id
         for(Customer x:customers)
             if (x.getId()==id) {
                 customers.get(0).getStatement();
@@ -66,6 +66,7 @@ public class BankService {
 
     }
 
+    //Create an account for a customer with a given id
     public void createAccount(){
         Scanner in = new Scanner(System.in);
         System.out.println("Customer id:");
@@ -80,14 +81,16 @@ public class BankService {
             }
     }
 
+    //Add a card to a given account by IBAN
     public void createCard(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Account id:");
+        System.out.println("Account IBAN:");
         String iban = in.nextLine();
 
         accountsMap.get(iban).addCard();
     }
 
+    //Deposit money into an account by IBAN
     public void deposit(){
         Scanner in = new Scanner(System.in);
         System.out.println("Account iban:");
@@ -100,6 +103,7 @@ public class BankService {
         accountsMap.get(iban).Deposit(location, sum);
     }
 
+    //Withdraw money from an account by iban
     public void withdraw(){
         Scanner in = new Scanner(System.in);
         System.out.println("Account iban:");
@@ -112,6 +116,7 @@ public class BankService {
         accountsMap.get(iban).Withdraw(location, sum);
     }
 
+    //Transfer money between 2 accounts by IBAN
     public void transfer(){
         Scanner in = new Scanner(System.in);
         System.out.println("Sender iban:");
@@ -126,6 +131,7 @@ public class BankService {
         s.Transfer(r,sum);
     }
 
+    //Print all the commands with description
     public void help(){
         System.out.println("create_customer -> Create a customer");
         System.out.println("create_account -> Create an account");
@@ -134,7 +140,7 @@ public class BankService {
         System.out.println("withdraw -> Make a withdraw from an account by IBAN");
         System.out.println("transfer -> Make a transfer between accounts by IBAN");
         System.out.println("view_customers -> View info of all customers");
-        System.out.println("view_customer_accounts -> Get info for all the accounts of a customer by customer ID");
+        System.out.println("view_customer_accounts -> Get info for all the accounts of a customer by IBAN");
         System.out.println("view_account_info -> View info by customer ID");
         System.out.println("view_customer_statements -> View statements for a customer by ID");
     }

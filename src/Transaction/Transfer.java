@@ -4,8 +4,8 @@ package Transaction;
 import Account.Account;
 
 public class Transfer extends Transaction{
-    double sum;
-    Account receiver;
+    private double sum;
+    private Account receiver;
 
     public Transfer(Account sender, Account receiver, double sum){
         super(sender);

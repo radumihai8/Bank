@@ -33,6 +33,7 @@ public class Account {
 
     public void addCard(){
         cardList.add(new Card());
+        //Sort the cardList by expire date
         if(cardList.size()>1)
             cardList.sort((f1, f2) -> {
                 return f1.getExpire_date().compareTo(f2.getExpire_date());
@@ -40,8 +41,10 @@ public class Account {
     }
 
     public void getAccountInfo(){
-        System.out.println(this.iban);
-        System.out.println(this.balance);
+        System.out.println("Account info:");
+        System.out.println("Iban: " + this.iban);
+        System.out.println("Balance: " + this.balance);
+        System.out.println("Cards:");
         for (Card x : cardList)
             x.getCardInfo();
     }
@@ -59,6 +62,8 @@ public class Account {
     }
 
     public void getStatement(){
+        System.out.println("Account Statements:");
+        System.out.println("IBAN: " + iban);
         System.out.println("Deposits:");
         for(Deposit x:depositList)
             x.getDetails();
