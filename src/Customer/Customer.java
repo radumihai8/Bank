@@ -41,9 +41,9 @@ public class Customer {
         return totalBalance;
     }
 
-    public Customer(int id, String firstName, String lastName, int age, long phone) {
+    public Customer(int id, String firstName, String lastName, int age, long phone, String city, String street, int streetNo, int zipCode) {
         this.id = id;
-        this.address = new Address();
+        this.address = new Address(city, street, streetNo, zipCode);
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -74,6 +74,17 @@ public class Customer {
             System.out.println("Statement for account "+x.getIban());
             x.getStatement();
         }
+    }
+
+    public String toCSV(){
+        return id+","+address.getCity()+","+
+                address.getStreet()+","+ address.getStreetNo()+
+                ","+address.getZipCode()
+                +","+firstName+","+lastName+","+age+","+phone;
+    }
+
+    public List<Account> getAccountsList(){
+        return accountsList;
     }
 
 

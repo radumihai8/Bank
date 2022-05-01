@@ -17,6 +17,10 @@ public class Deposit extends Transaction{
         account.setBalance(account.getBalance()+sum);
     }
 
+    public String toCSV(){
+        return location+","+sum;
+    }
+
     public void getDetails(){
         System.out.println(date + " " + location + " " +sum);
     }

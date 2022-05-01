@@ -2,14 +2,17 @@ import Customer.*;
 import Account.*;
 import Transaction.Deposit;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner in = new Scanner(System.in);
         BankService bankService = BankService.getInstance();
+        AuditService auditService = AuditService.getInstance();
+        bankService.readData();
         boolean run = true;
         System.out.println("Use the help command to view informations about all the commands");
         while (run){
@@ -31,8 +34,11 @@ public class Main {
                 case "help" -> bankService.help();
                 case "exit" -> run = false;
             }
+            auditService.log(command);
+
         }
 
+        bankService.saveData();
         System.out.println("End");
     }
 }

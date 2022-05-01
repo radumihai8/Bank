@@ -1,7 +1,14 @@
 import Account.Account;
+import Account.AccountSingleton;
+import Account.CardSingleton;
+import Account.Card;
 import Customer.Customer;
+import Customer.CustomerSingleton;
+import Transaction.Deposit;
+import Transaction.DepositSingleton;
 import Transaction.Transfer;
 
+import java.io.IOException;
 import java.util.*;
 
 public class BankService {
@@ -16,11 +23,45 @@ public class BankService {
         return instance;
     }
 
-    private List<Customer> customers = new ArrayList<>();
+    private AccountSingleton accountSingleton = AccountSingleton.getInstance();
+
+    private CustomerSingleton customerSingleton = CustomerSingleton.getInstance();
+    private CardSingleton cardSingleton = CardSingleton.getInstance();
+    private DepositSingleton depositSingleton = DepositSingleton.getInstance();
+    private List<Customer> customers = null;
+
     private HashMap<String, Account> accountsMap = new HashMap<String, Account>();
 
+    public void saveData() throws IOException {
+        for(Customer x:customers)
+        {
+            customerSingleton.exportToCSV(x);
+            for(Account y:x.getAccountsList()){
+                //Export cards
+                for(Card z:y.getCardList()){
+                    cardSingleton.exportToCSV(y.getIban(),z);
+                }
+                //Export deposits
+                for(Deposit d:y.getDepositList()){
+                    depositSingleton.exportToCSV(y.getIban(),d);
+                }
+                //Export account
+                accountSingleton.exportToCSV(x.getId(),y);
+            }
+        }
+        accountSingleton.close();
+    }
+
+    public void readData(){
+        customers = customerSingleton.readFromCSV();
+        accountsMap = accountSingleton.readFromCSV(customers);
+        cardSingleton.readFromCSV(accountsMap);
+        depositSingleton.readFromCSV(accountsMap);
+    }
     public void createCustomer(){
-        customers.add(new Customer(customers.size()+1));
+        Customer temp = new Customer(customers.size()+1);
+        System.out.println(customers.size());
+        customers.add(temp);
     }
 
     public void viewCustomers(){

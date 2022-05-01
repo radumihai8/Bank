@@ -30,7 +30,13 @@ public class Account {
         //Add a card to the account
         cardList.add(new Card());
     }
-
+    public void addCard(Card card){
+        cardList.add(card);
+        if(cardList.size()>1)
+            cardList.sort((f1, f2) -> {
+                return f1.getExpire_date().compareTo(f2.getExpire_date());
+            });
+    }
     public void addCard(){
         cardList.add(new Card());
         //Sort the cardList by expire date
@@ -89,5 +95,18 @@ public class Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String toCSV(){
+        return iban + "," + balance;
+
+    }
+
+    public List<Card> getCardList(){
+        return cardList;
+    }
+
+    public List<Deposit> getDepositList(){
+        return depositList;
     }
 }

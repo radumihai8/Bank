@@ -1,5 +1,8 @@
 package Account;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Random;
 
 import java.util.Date;
@@ -19,13 +22,24 @@ public class Card {
             else
                 number = number + " " +Integer.toString(n);
         }
-        cvv = rand.nextInt(999);
+        cvv = rand.nextInt(100,999);
 
         expire_date = new Date();
     }
 
+    public Card(String number, int cvv, String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        this.number = number;
+        this.cvv = cvv;
+        this.expire_date = formatter.parse(date);
+    }
+
     public void getCardInfo(){
         System.out.println("Card number: " + number + " CVV:" + cvv + " Exp. Date: " + expire_date);
+    }
+
+    public String toCSV(){
+        return number+","+cvv+","+expire_date;
     }
 
     public Date getExpire_date(){
