@@ -87,5 +87,23 @@ public class Customer {
         return accountsList;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public Address getAddress(){
+        return address;
+    }
 }

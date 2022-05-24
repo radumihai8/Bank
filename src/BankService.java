@@ -1,14 +1,11 @@
-import Account.Account;
-import Account.AccountSingleton;
-import Account.CardSingleton;
-import Account.Card;
-import Customer.Customer;
-import Customer.CustomerSingleton;
+import Account.*;
+import Customer.*;
+
 import Transaction.Deposit;
-import Transaction.DepositSingleton;
-import Transaction.Transfer;
+import Transaction.DepositDatabase;
 
 import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 public class BankService {
@@ -23,40 +20,64 @@ public class BankService {
         return instance;
     }
 
-    private AccountSingleton accountSingleton = AccountSingleton.getInstance();
 
-    private CustomerSingleton customerSingleton = CustomerSingleton.getInstance();
-    private CardSingleton cardSingleton = CardSingleton.getInstance();
-    private DepositSingleton depositSingleton = DepositSingleton.getInstance();
-    private List<Customer> customers = null;
+
+
+//    private AccountSingleton accountSingleton = AccountSingleton.getInstance();
+//    private CustomerSingleton customerSingleton = CustomerSingleton.getInstance();
+//    private CardSingleton cardSingleton = CardSingleton.getInstance();
+//    private DepositSingleton depositSingleton = DepositSingleton.getInstance();
+
+    private CustomerDatabase customerDatabase = CustomerDatabase.getInstance();
+    private AccountDatabase accountDatabase = AccountDatabase.getInstance();
+    private CardDatabase cardDatabase = CardDatabase.getInstance();
+    private DepositDatabase depositDatabase = DepositDatabase.getInstance();
+
+    private List<Customer> customers = new ArrayList<Customer>();;
 
     private HashMap<String, Account> accountsMap = new HashMap<String, Account>();
 
-    public void saveData() throws IOException {
+    public void saveData() throws IOException, SQLException {
         for(Customer x:customers)
         {
-            customerSingleton.exportToCSV(x);
+            //daca clientul nu exista deja in DB il inseram, altfel facem update
+            if(!customerDatabase.exists(x)) {
+                customerDatabase.create(x);
+            }
+            else {
+                customerDatabase.update(x);
+
+            }
+
             for(Account y:x.getAccountsList()){
                 //Export cards
                 for(Card z:y.getCardList()){
-                    cardSingleton.exportToCSV(y.getIban(),z);
+                    if(!cardDatabase.exists(z))
+                        cardDatabase.create(y.getIban(),z);
+                    else
+                        cardDatabase.update(z);
                 }
                 //Export deposits
                 for(Deposit d:y.getDepositList()){
-                    depositSingleton.exportToCSV(y.getIban(),d);
+                    if(!depositDatabase.exists(d))
+                        depositDatabase.create(y.getIban(),d);
+
                 }
                 //Export account
-                accountSingleton.exportToCSV(x.getId(),y);
+                if(!accountDatabase.exists(y))
+                    accountDatabase.create(x.getId(), y);
+                else
+                    accountDatabase.update(y);
             }
         }
-        accountSingleton.close();
     }
 
     public void readData(){
-        customers = customerSingleton.readFromCSV();
-        accountsMap = accountSingleton.readFromCSV(customers);
-        cardSingleton.readFromCSV(accountsMap);
-        depositSingleton.readFromCSV(accountsMap);
+        //customers = customerSingleton.readFromCSV();
+        customers.addAll(customerDatabase.read());
+        accountsMap = accountDatabase.read(customers);
+        cardDatabase.read(accountsMap);
+        depositDatabase.read(accountsMap);
     }
     public void createCustomer(){
         Customer temp = new Customer(customers.size()+1);

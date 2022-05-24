@@ -28,7 +28,7 @@ public class Card {
     }
 
     public Card(String number, int cvv, String date) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
         this.number = number;
         this.cvv = cvv;
         this.expire_date = formatter.parse(date);
@@ -44,5 +44,13 @@ public class Card {
 
     public Date getExpire_date(){
         return this.expire_date;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public int getCvv() {
+        return cvv;
     }
 }

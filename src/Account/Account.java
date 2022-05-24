@@ -57,6 +57,11 @@ public class Account {
 
     public void Deposit(String location, double sum){
         depositList.add(new Deposit(this, location, sum));
+        this.setBalance(this.balance+sum);
+    }
+
+    public void Deposit(Deposit deposit){
+        depositList.add(deposit);
     }
 
     public void Withdraw(String location, double sum){

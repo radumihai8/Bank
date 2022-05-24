@@ -3,12 +3,13 @@ import Account.*;
 import Transaction.Deposit;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         Scanner in = new Scanner(System.in);
         BankService bankService = BankService.getInstance();
         AuditService auditService = AuditService.getInstance();
